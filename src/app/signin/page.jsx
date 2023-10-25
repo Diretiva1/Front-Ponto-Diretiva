@@ -16,7 +16,7 @@ export default function Sigin(){
 
 	const router = useRouter();
 
-	const siginForm = async (e) => {
+	const signinForm = async (e) => {
 		e.preventDefault();
 
 		const sigin = {
@@ -45,8 +45,6 @@ export default function Sigin(){
 			}
 		}
 	};
-//a-form
-
 	return (
 		<div className={styles.main}>
 			<div className={`${styles.container} ${styles['b-container']}`} id={styles['b-container']}>
@@ -55,7 +53,7 @@ export default function Sigin(){
 					id={styles['b-form']} 
 					method="" 
 					action=""
-					onSubmit={siginForm}
+					onSubmit={signinForm}
 				>
 					<h2 className={`${styles.title}`}>
 						Sign in to Website
@@ -78,12 +76,12 @@ export default function Sigin(){
 						placeholder="Password"
 						onChange={(e) => setPassword(e.target.value)}
 					/>
-					<a className={styles.form__link} href="/signup">
+					<a className={styles.form__link} href="/">
 						Forgot your password?
 					</a>
 					<button 
 						className={`${styles.switch__button} ${styles.button}`}
-						onClick={siginForm}
+						onClick={signinForm}
 						>
 						SIGN IN
 					</button>

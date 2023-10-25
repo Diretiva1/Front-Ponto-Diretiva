@@ -13,7 +13,7 @@ function verifyToken(token) {
  
 export function middleware(request) {
 
-	const sigin = new URL("/sigin", request.url);
+	const signin = new URL("/signin", request.url);
 	const signup = new URL("/signup", request.url);
 	
 	const token = request.cookies.get("access_token");
@@ -21,7 +21,7 @@ export function middleware(request) {
 	if(verifyToken(token)){
 		const decodedToken = decode(token.value);
 		const rote = new URL('/'+decodedToken.permissions[0], request.url);
-		if(request.nextUrl.pathname === "/sigin" || request.nextUrl.pathname === "/signup"){
+		if(request.nextUrl.pathname === "/signin" || request.nextUrl.pathname === "/signup"){
 			return NextResponse.redirect(rote);
 		}
 		if(decodedToken.permissions[0] == "employee"){
@@ -35,19 +35,19 @@ export function middleware(request) {
 			}
 		}
 	}else{
-		if(request.nextUrl.pathname === "/sigin" || request.nextUrl.pathname === "/signup"){
+		if(request.nextUrl.pathname === "/signin" || request.nextUrl.pathname === "/signup"){
 			const response = NextResponse.next();
 			return response;
 		}
 
-		return NextResponse.redirect(sigin);
+		return NextResponse.redirect(signin);
 
 	};
 }
 
 export const config = {
 	matcher: [
-		"/sigin",
+		"/signin",
 		"/signup",
 		"/employer",
 		"/employer/:path*",

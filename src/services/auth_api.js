@@ -5,7 +5,7 @@ import axios from "axios";
 // Agora você pode acessar as variáveis de ambiente definidas no .env
 const API_URL = "http://localhost:8080";//process.env.API_URL;
 
-const SIGIN_URL = `${API_URL}/sigin`;
+const SIGIN_URL = `${API_URL}/signin`;
 const SIGUP_URL = `${API_URL}/users`;
   
 export async function sigIn(dataSigIn) {
