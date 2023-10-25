@@ -1,5 +1,5 @@
 "use client";
-import styles from "./sigin.module.css";
+import styles from "./signin.module.css";
 
 import Button from "../../component/Button/button.jsx";
 
