@@ -11,7 +11,7 @@ import { decode } from 'jsonwebtoken';
 
 const sigup = "sigup";
 
-export default function Sigup(){
+export default function Signup(){
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
@@ -88,7 +88,7 @@ export default function Sigup(){
 					<input 
 						className={styles.form__input} 
 						type="text" 
-						placeholder="Name"
+						placeholder="Username"
 						onChange={(e) => setUsername(e.target.value)}
 					/>
 					<input 

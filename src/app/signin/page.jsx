@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { decode } from 'jsonwebtoken';
 
-export default function Sigin(){
+export default function Signin(){
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
