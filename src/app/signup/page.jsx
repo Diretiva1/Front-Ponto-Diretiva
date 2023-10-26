@@ -77,7 +77,6 @@ export default function Signup(){
 		
 			setLoginError(error.data.message);
 			setTimeout(function() {
-				// O código que você deseja atrasar
 				setLoginError("")
 			}, tempmensage)
 		}
