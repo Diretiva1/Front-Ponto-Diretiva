@@ -13,60 +13,78 @@ const sigup = "sigup";
 
 export default function Signup(){
 
+	const tempmensage = 2000;
+
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [loginError, setLoginError] = useState("");
 
 	const router = useRouter(); 
 
 	const signupForm = async (e) => {
 		e.preventDefault();
 
+		if (username === "" || password === "" ) {
+			setLoginError(username === "" ? "Username is required": "Password is required");
+			setTimeout(function() {
+				setLoginError("")
+			}, tempmensage)
+			return;
+		}
+
 		const sigup = {
 			"user_tag": username,
 			"user_password": password
 		};
 
-		const responseSigUp = await sigUp(sigup);
-		
-		const sigin = {
-			"user_tag": sigup.user_tag,
-			"user_password": sigup.user_password
-		};
-		
-		if (responseSigUp.status === 201) {
+		try {
+			const responseSigUp = await sigUp(sigup);
 			
-			const responseSigIn = await sigIn(sigin);
+			const sigin = {
+				"user_tag": sigup.user_tag,
+				"user_password": sigup.user_password
+			};
 			
-			if (responseSigIn.status === 200) {
+			if (responseSigUp.status === 201) {
 				
-				const token = responseSigIn.data.access_token;
+				const responseSigIn = await sigIn(sigin);
 				
-				if(token){
-					console.log("responseSigUp");
+				if (responseSigIn.status === 200) {
 					
-					const decodedToken = decode(token);
-		
-					Cookies.set("access_token", token, { expires: 1, path: "/" });
-		
-					router.replace('/'+decodedToken.permissions[0]);
+					const token = responseSigIn.data.access_token;
 					
-				}else{
-	
-					console.log("erro no sigin");
-				
+					if(token){
+						console.log("responseSigUp");
+						
+						const decodedToken = decode(token);
+			
+						Cookies.set("access_token", token, { expires: 1, path: "/" });
+			
+						router.replace('/'+decodedToken.permissions[0]);
+						
+					}else{
+		
+						console.log("erro no sigin");
+					
+					}
 				}
-			}
-		}else{
+			}else{
 
-			console.log(responseSigUp);
+				console.log(responseSigUp);
+			
+			}
+		} catch (error) {
 		
+			setLoginError(error.data.message);
+			setTimeout(function() {
+				// O código que você deseja atrasar
+				setLoginError("")
+			}, tempmensage)
 		}
 	};
 
 	return (
 		<div className={styles.main}>
-			{/* ${styles['is-hidden']} */}
-			{/* direita Sign up */}
 			<div className={`${styles.container} ${styles['a-container']}`} id={styles['a-container']}>
 				<form 
 					className={styles.form} 
@@ -97,6 +115,9 @@ export default function Signup(){
 						placeholder="Password"
 						onChange={(e) => setPassword(e.target.value)}
 					/>
+					<a style={{color: '#ff5555'}}>
+						{loginError}
+					</a>
 					<button 
 						className={`${styles.switch__button} ${styles.button}`}
 						onClick={signupForm}
@@ -105,11 +126,11 @@ export default function Signup(){
           			</button>
 				</form>
 			</div>
-			<div className={styles.switch} id={styles['switch-cnt']}>
+			<div className={styles.switch}>
 				<div className={styles.switch__circle}></div>
 				<div className={`${styles.switch__circle} ${styles['switch__circle--t']}`}></div>
 				<div className={`${styles.switch__container}`} id={styles['switch-c1']}>
-					<h2 className={`${styles.switch__title} ${styles.title}`}>
+					<h2 className={`${styles.title}`}>
 						Welcome Back !
 					</h2>
 					<p className={styles.switch__description}>
