@@ -33,8 +33,7 @@ export async function sigIn(dataSigIn) {
 			data:response.data
 		};
 	  } catch (error) {
-		console.error("Erro ao buscar dados da cliente:", error);
-		throw error;
+		throw error.response;
 	  }
 	
 }
@@ -64,7 +63,7 @@ export async function sigUp(dataSigUp){
 			data:response.data
 		};
 	} catch (error) {
-		console.error("Erro: " + error.message);
+		throw error.response;
 	}
 }
 
