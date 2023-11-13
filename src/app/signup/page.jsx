@@ -1,15 +1,11 @@
 "use client";
 import styles from "./signup.module.css";
 
-import Button from "../../component/Button/button.jsx";
-
-import { sigUp, sigIn } from "../../services/auth_api.js";
+import { signUp, signIn } from "../../services/auth_api.js";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { decode } from 'jsonwebtoken';
-
-const sigup = "sigup";
 
 export default function Signup(){
 
@@ -17,6 +13,7 @@ export default function Signup(){
 
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [email, setEmail] = useState("");
 	const [loginError, setLoginError] = useState("");
 
 	const router = useRouter(); 
@@ -32,30 +29,30 @@ export default function Signup(){
 			return;
 		}
 
-		const sigup = {
+		const signup = {
 			"user_tag": username,
-			"user_password": password
+			"user_password": password,
+			"email": email
 		};
 
 		try {
-			const responseSigUp = await sigUp(sigup);
+			const responseSignUp = await signUp(signup);
 			
-			const sigin = {
-				"user_tag": sigup.user_tag,
-				"user_password": sigup.user_password
+			const signin = {
+				"user_tag": signup.user_tag,
+				"user_password": signup.user_password,
+				"email": signup.email
 			};
 			
-			if (responseSigUp.status === 201) {
+			if (responseSignUp.status === 201) {
 				
-				const responseSigIn = await sigIn(sigin);
+				const responseSignIn = await signIn(signin);
 				
-				if (responseSigIn.status === 200) {
+				if (responseSignIn.status === 200) {
 					
-					const token = responseSigIn.data.access_token;
+					const token = responseSignIn.data.access_token;
 					
-					if(token){
-						console.log("responseSigUp");
-						
+					if(token){						
 						const decodedToken = decode(token);
 			
 						Cookies.set("access_token", token, { expires: 1, path: "/" });
@@ -64,13 +61,13 @@ export default function Signup(){
 						
 					}else{
 		
-						console.log("erro no sigin");
+						console.log("erro no signin");
 					
 					}
 				}
 			}else{
 
-				console.log(responseSigUp);
+				console.log(responseSignUp);
 			
 			}
 		} catch (error) {
@@ -102,6 +99,12 @@ export default function Signup(){
 					<span className={styles.form__span}>
 						or use email for registration
 					</span>
+					<input 
+						className={styles.form__input} 
+						type="emial" 
+						placeholder="Email"
+						onChange={(e) => setEmail(e.target.value)}
+					/>
 					<input 
 						className={styles.form__input} 
 						type="text" 

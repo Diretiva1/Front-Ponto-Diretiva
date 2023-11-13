@@ -1,9 +1,7 @@
 "use client";
 import styles from "./signin.module.css";
 
-import Button from "../../component/Button/button.jsx";
-
-import { sigIn } from "../../services/auth_api.js";
+import { signIn } from "../../services/auth_api.js";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
@@ -30,13 +28,13 @@ export default function Signin(){
 			return;
 		}
 
-		const sigin = {
+		const signin = {
 			"user_tag": username,
 			"user_password": password
 		};
 
 		try {
-			const response = await sigIn(sigin);
+			const response = await signIn(signin);
 	
 			if (response.status === 200) {
 	
@@ -93,7 +91,7 @@ export default function Signin(){
 					<a style={{color: '#ff5555'}}>
 						{loginError}
 					</a>
-					<a className={styles.form__link} href="/">
+					<a className={styles.form__link} href="/retrieve">
 						Forgot your password?
 					</a>
 					<button 
