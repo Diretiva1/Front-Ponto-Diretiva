@@ -1,7 +1,7 @@
 "use client";
 import styles from "./retrieve.module.css";
 
-import { retrievePassword } from "../../services/auth_api.js";
+import { retrievePassword } from "../../services/retrive_api.js";
 import { useState } from "react";
 
 import forgotPasswordIcon from '../../../public/forgot-password-icon.png';
@@ -12,6 +12,7 @@ export default function Retrieve(){
     const tempmensage = 2000;
 
     const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [retrieveError, setRetiveError] = useState("");
     const [color, setColor] = useState("");
 
@@ -28,6 +29,7 @@ export default function Retrieve(){
         }
 
         const retive = {
+            "user_tag": username,
             "email": email,
         };
 
@@ -70,6 +72,12 @@ export default function Retrieve(){
                 <a className={styles.body}>
                     Please enter the e-mail address associated with your account so that we can send you a reset link.
                 </a>
+                <input 
+                    className={styles.form__input} 
+                    type="text" 
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
+                />
                 <input 
                     className={styles.form__input} 
                     type="emial" 

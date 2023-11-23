@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { verify, decode } from 'jsonwebtoken';
+import { decode } from 'jsonwebtoken';
 
 function verifyToken(token) {
 	const milles = 1000;

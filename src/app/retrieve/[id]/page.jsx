@@ -1,16 +1,17 @@
 "use client";
 import styles from "./new_password.module.css";
 
-import { retrievePassword } from "../../../services/auth_api.js";
+import { updatePassword } from "../../../services/retrive_api.js";
 import { useState } from "react";
 import forgotPasswordIcon from '../../../../public/forgot-password-icon.png';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { decode } from 'jsonwebtoken';
 
 
 export default function RetrievById( {params} ){
 
-	const tempmensage = 2000;
+	const tempmensage = 5000;
 
     const [password1, setPassword1] = useState("");
     const [password2, setPassword2] = useState("");
@@ -19,7 +20,7 @@ export default function RetrievById( {params} ){
 	
 	const router = useRouter();
 	
-	const token = params.id;
+	const token = decode(params.id);
 
     const retrieveForm = async (e) => {
         e.preventDefault();
@@ -36,21 +37,22 @@ export default function RetrievById( {params} ){
 		if (password1 === password2) {
 
 			const retive = {
-				"password": password1,
+				"user_password": password1,
 			};
 
 			try {
-				const response = await retrievePassword(retive);
+				const response = await updatePassword(retive, token.user_id, params.id);
 		
-				if (response.status !== 200) {
+                console.log(response.status);
+
+				if (response.status === 200) {
 					setColor("#4285f4");
-					setRetiveError("New password sent successfully");
+					setRetiveError("Set new password successfully");
 
 					setTimeout(function() {
 						setRetiveError("")
+                        router.replace('/signin');
 					}, tempmensage)
-
-					router.replace('/signin');
 				}
 			} catch (error) {
 			

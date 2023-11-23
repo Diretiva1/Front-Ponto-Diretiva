@@ -5,18 +5,18 @@ import axios from "axios";
 // Agora você pode acessar as variáveis de ambiente definidas no .env
 const API_URL = 'http://localhost:8080';//process.env.API_URL;
 
-const SIGNIN_URL = `${API_URL}/signin`;
-const SIGNUP_URL = `${API_URL}/users`;
-  
-export async function signIn(dataSignIn) {
+const RETRIEVE_URL = `${API_URL}/retrieve`;
+const UPDATE_URL = `${API_URL}/users`;
+ 
+export async function retrievePassword(retrieve){
 	try {
 		const response = await axios.post(
-			SIGNIN_URL,
-			dataSignIn,
-			{
-				headers: {
+			RETRIEVE_URL,
+		  	retrieve, 
+		  	{
+			  headers: {
 					"Content-Type": "application/json",
-				},
+			  },
 			}
 		)
 			.then(response => {
@@ -31,22 +31,22 @@ export async function signIn(dataSignIn) {
 			status: response.status,
 			data:response.data
 		};
-	  } catch (error) {
+	} catch (error) {
 		throw error.response;
-	  }
-	
+	}
 }
 
-export async function signUp(dataSignUp){
+export async function updatePassword(retrieve, user_id, token){
 	try {
-		const response = await axios.post(
-			SIGNUP_URL,
-		  	dataSignUp, 
-		  	{
-			  headers: {
-					"Content-Type": "application/json",
-			  },
-			}
+		const response = await axios.put(
+			`${UPDATE_URL}/${user_id}`,
+			retrieve,
+			{
+				headers: {
+		  			"Content-Type": "application/json",
+					"Authorization": `Bearer ${token}`,
+				},
+	  		}
 		)
 			.then(response => {
 				return response;
